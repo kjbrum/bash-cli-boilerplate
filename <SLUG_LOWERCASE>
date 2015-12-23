@@ -1,0 +1,229 @@
+#!/usr/bin/env bash
+
+
+
+#  <SLUG_NORMAL> CLI - v0.0.1
+#  A command line tool for...
+#  Copyright (C) Kyle Brumm <http://kylebrumm.com>
+
+
+
+# Example:
+# Project - Product Hunt
+# <SLUG_NORMAL> - Product Hunt
+# <SLUG_UPPERCASE> - PH
+# <SLUG_LOWERCASE> - ph
+
+
+# -------------------------------------------------------
+# CLOUDFLARE VARIABLES
+# -------------------------------------------------------
+
+VERSION="0.0.1"
+RED=$(tput setaf 1);
+GREEN=$(tput setaf 2);
+YELLOW=$(tput setaf 3);
+WHITE=$(tput setaf 7);
+RESET=$(tput sgr0);
+
+<SLUG_UPPERCASE>_INSTALL_PATH="${BASH_SOURCE[0]}"
+<SLUG_UPPERCASE>_INSTALL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+<SLUG_UPPERCASE>_DIR="$HOME/.<SLUG_LOWERCASE>"
+<SLUG_UPPERCASE>_CONFIG="$<SLUG_UPPERCASE>_DIR/config"
+
+
+
+# -------------------------------------------------------
+# CLOUDFLARE HELPER FUNCTIONS
+# -------------------------------------------------------
+
+# Throw an error
+error() {
+    printf "${RED}Error:${WHITE} ${1}\n"
+    exit
+}
+
+# Throw a warning
+warn() {
+    printf "${YELLOW}${1}${WHITE}\n"
+}
+
+# Throw a success message
+success() {
+    printf "${GREEN}${1}${WHITE}\n"
+}
+
+# Set up the necessary config variables
+setup_project_config() {
+    # Source the project config file if it exists
+    if [ -f "$<SLUG_UPPERCASE>_DIR/$1" ]; then
+        source "$<SLUG_UPPERCASE>_DIR/$1"
+    fi
+}
+
+
+
+# -------------------------------------------------------
+# CLOUDFLARE COMMANDS
+# -------------------------------------------------------
+
+# CLEANUP: Remove all the config files
+<SLUG_LOWERCASE>_cleanup() {
+    if [ "$2" ]; then
+        if [ -f "$<SLUG_UPPERCASE>_DIR/$2" ]; then
+            success "==> Cleanup $2${WHITE}"
+            rm "$<SLUG_UPPERCASE>_DIR/$2"
+            warn "Removed \"$2\" config file"
+        else
+            warn "A config file for \"$2\" doesn't exist"
+        fi
+    else
+        printf "This will remove all configuration files.\n"
+        read -ep "Are you sure you want to run the cleanup? (y/N): " cleanup
+        case $cleanup in
+            [Yy]* )
+                success "==> Cleanup${WHITE}"
+                warn "Config files removed"
+                rm -rf $<SLUG_UPPERCASE>_DIR
+                ;;
+            * )
+                warn "Cleanup skipped"
+                ;;
+        esac
+    fi
+}
+
+# HELP: Display the help information
+<SLUG_LOWERCASE>_help() {
+cat <<EOF
+
+<SLUG_NORMAL> CLI - v${VERSION}
+
+A command line tool for...
+
+Usage:
+    <SLUG_LOWERCASE> <command> <options>
+
+Commands:
+    cleanup    Remove all config files
+    help       Display this help text
+    init       Initialize necessary config files
+    update     Download the latest version of <SLUG_LOWERCASE>
+    version    Display the current version
+
+EOF
+exit;
+}
+
+# INIT: Set up the project files
+<SLUG_LOWERCASE>_init() {
+    if [ $is_setup = true ]; then
+        error "You have already run the setup task."
+    fi
+
+    success "==> Init${WHITE}"
+
+    # Create directory if it doesn't exist
+    if [ ! -d "$<SLUG_UPPERCASE>_DIR" ]; then
+        mkdir $<SLUG_UPPERCASE>_DIR
+        success "Directory created"
+    fi
+
+    # Create config file if it doesn't exist
+    if [ ! -f "$<SLUG_UPPERCASE>_CONFIG" ]; then
+        read -ep "<SLUG_UPPERCASE>_EMAIL: " email
+        read -ep "<SLUG_UPPERCASE>_API_KEY: " api_key
+
+        # Verify the users input
+        printf "\n"
+        printf "The following will be written to $<SLUG_UPPERCASE>_CONFIG:\n"
+        printf "\n"
+        printf "# <SLUG_NORMAL> Email\n"
+        printf "<SLUG_UPPERCASE>_EMAIL=\"$email\"\n"
+        printf "\n"
+        printf "# <SLUG_NORMAL> API Key\n"
+        printf "<SLUG_UPPERCASE>_API_KEY=\"$api_key\"\n"
+        printf "\n"
+
+        # Confirm
+        read -ep "Everything look good? (Y/n): " good_to_go
+        case $good_to_go in
+            [Nn]* )
+                warn "Config setup skipped"
+                ;;
+            * )
+                success "Config file created"
+                touch $<SLUG_UPPERCASE>_CONFIG
+cat > $<SLUG_UPPERCASE>_CONFIG <<EOF
+# <SLUG_NORMAL> Email
+<SLUG_UPPERCASE>_EMAIL="$email"
+
+# <SLUG_NORMAL> API Key
+<SLUG_UPPERCASE>_API_KEY="$api_key"
+EOF
+                warn "\nThe config file can be modified at \"$<SLUG_UPPERCASE>_CONFIG\""
+                ;;
+        esac
+    fi
+
+}
+
+# UPDATE: Update to the latest version of <SLUG_LOWERCASE>-cli
+<SLUG_LOWERCASE>_update() {
+    read -ep "Are you sure you want to update <SLUG_LOWERCASE>-cli? (y/N): " update
+    case $update in
+        [Yy]* )
+            success "==> Update"
+            # Remove the old script
+            warn "Removing old script at \"$<SLUG_UPPERCASE>_INSTALL_PATH\"..."
+            rm $<SLUG_UPPERCASE>_INSTALL_PATH
+
+            # Download the new script
+            warn "Downloading new script to \"$<SLUG_UPPERCASE>_INSTALL_DIR/<SLUG_LOWERCASE>\"..."
+            curl -s https://raw.githubusercontent.com/kjbrum/<SLUG_LOWERCASE>-cli/master/<SLUG_LOWERCASE>-cli > $<SLUG_UPPERCASE>_INSTALL_DIR/<SLUG_LOWERCASE>
+            chmod +x $<SLUG_UPPERCASE>_INSTALL_DIR/<SLUG_LOWERCASE>
+            ;;
+        * )
+            warn "Update Skipped"
+            ;;
+    esac
+}
+
+# VERSION: Display the current version
+<SLUG_LOWERCASE>_version() {
+    printf "v$VERSION\n"
+}
+
+
+
+# -------------------------------------------------------
+# CLOUDFLARE INITIALIZATION
+# -------------------------------------------------------
+
+# Check if help info should be displayed
+if [ "$1" = "-h" -o "$1" = "--help" -o -z "$1" ]; then
+    <SLUG_LOWERCASE>_help;
+fi
+
+# Check if the necessary files are set up
+if [ -f "$<SLUG_UPPERCASE>_CONFIG" ]; then
+    is_setup=true
+
+    # Source the config file
+    source "$<SLUG_UPPERCASE>_CONFIG"
+else
+    is_setup=false
+
+    if [ "$1" != "init" -a "$1" != "version" ]; then
+        error "You need to run \"<SLUG_LOWERCASE> init\" to get things set up."
+    fi
+fi
+
+# See what command we need to run
+case "$1" in
+    cleanup)      <SLUG_LOWERCASE>_cleanup "$@";;
+    init)         <SLUG_LOWERCASE>_init "$@";;
+    update)       <SLUG_LOWERCASE>_update;;
+    version)      <SLUG_LOWERCASE>_version;;
+    *)            error "Illegal command -- $1 (see \"<SLUG_LOWERCASE> --help\" for help)";;
+esac
