@@ -69,28 +69,18 @@ setup_project_config() {
 
 # CLEANUP: Remove all the config files
 <SLUG_LOWERCASE>_cleanup() {
-    if [ "$2" ]; then
-        if [ -f "$<SLUG_UPPERCASE>_DIR/$2" ]; then
-            success "==> Cleanup $2${WHITE}"
-            rm "$<SLUG_UPPERCASE>_DIR/$2"
-            warn "Removed \"$2\" config file"
-        else
-            warn "A config file for \"$2\" doesn't exist"
-        fi
-    else
-        printf "This will remove all configuration files.\n"
-        read -ep "Are you sure you want to run the cleanup? (y/N): " cleanup
-        case $cleanup in
-            [Yy]* )
-                success "==> Cleanup${WHITE}"
-                warn "Config files removed"
-                rm -rf $<SLUG_UPPERCASE>_DIR
-                ;;
-            * )
-                warn "Cleanup skipped"
-                ;;
-        esac
-    fi
+    printf "This will remove all configuration files.\n"
+    read -ep "Are you sure you want to run the cleanup? (y/N): " cleanup
+    case $cleanup in
+        [Yy]* )
+            success "==> Cleanup"
+            warn "Config files removed"
+            rm -rf $<SLUG_UPPERCASE>_DIR
+            ;;
+        * )
+            warn "Cleanup skipped"
+            ;;
+    esac
 }
 
 # HELP: Display the help information
