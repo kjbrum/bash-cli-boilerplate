@@ -1,4 +1,22 @@
-# <SLUG_NORMAL> CLI
+# Bash CLI Boilerplate
+
+> Boilerplate project for getting started on building a Bash CLI.
+
+## To-Do
+
+- Add instructions on how to get started using this project
+    - Adding new commands
+    - Adding new config settings
+    - Using `jsawk` for manipulating JSON
+- Add the base config settings
+
+---
+
+_Remove this and everything above it when you start a new project._
+
+---
+
+# `<SLUG_NORMAL>` CLI
 
 > A command line tool for...
 
@@ -32,17 +50,12 @@ Commands:
 
 ## Config
 
-Any necessary config settings here
+Add any necessary config settings here
 
 
 ## To-Do
 
-- Add instructions on how to get started using this project
-    - Adding new commands
-    - Adding new config settings
-    - Using `jsawk` for manipulating JSON
-- Add the base config settings
-
+Add any to-do items for the project
 
 ## License
 
