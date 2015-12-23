@@ -12,9 +12,7 @@
 
 ---
 
-_Remove this and everything above it when you start a new project._
-
----
+##### _Remove this and everything above it when you start a new project._
 
 # `<SLUG_NORMAL>` CLI
 
