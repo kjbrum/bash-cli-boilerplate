@@ -48,12 +48,18 @@ Commands:
 
 ## Config
 
-Add any necessary config settings here
+#### `<SLUG_UPPERCASE>_API_KEY`
+
+The API key associated with your account email. [Find it here](https://github.com/kjbrum/bash-cli-boilerplate)
+
+#### `<SLUG_UPPERCASE>_EMAIL`
+
+Your <SLUG_NORMAL> account email.
 
 
 ## To-Do
 
-Add any to-do items for the project
+- Add any to-do items for the project
 
 ## License
 

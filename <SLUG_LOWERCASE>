@@ -128,11 +128,11 @@ exit;
         printf "\n"
         printf "The following will be written to $<SLUG_UPPERCASE>_CONFIG:\n"
         printf "\n"
-        printf "# <SLUG_NORMAL> Email\n"
-        printf "<SLUG_UPPERCASE>_EMAIL=\"$email\"\n"
-        printf "\n"
         printf "# <SLUG_NORMAL> API Key\n"
         printf "<SLUG_UPPERCASE>_API_KEY=\"$api_key\"\n"
+        printf "\n"
+        printf "# <SLUG_NORMAL> Email\n"
+        printf "<SLUG_UPPERCASE>_EMAIL=\"$email\"\n"
         printf "\n"
 
         # Confirm
@@ -145,11 +145,11 @@ exit;
                 success "Config file created"
                 touch $<SLUG_UPPERCASE>_CONFIG
 cat > $<SLUG_UPPERCASE>_CONFIG <<EOF
-# <SLUG_NORMAL> Email
-<SLUG_UPPERCASE>_EMAIL="$email"
-
 # <SLUG_NORMAL> API Key
 <SLUG_UPPERCASE>_API_KEY="$api_key"
+
+# <SLUG_NORMAL> Email
+<SLUG_UPPERCASE>_EMAIL="$email"
 EOF
                 warn "\nThe config file can be modified at \"$<SLUG_UPPERCASE>_CONFIG\""
                 ;;
