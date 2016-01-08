@@ -7,7 +7,7 @@
 - Add instructions on how to get started using this project
     - Adding new commands
     - Adding new config settings
-    - Using `jsawk` for manipulating JSON
+    - Use `jq` for manipulating JSON
 - Add the base config settings
 
 ---

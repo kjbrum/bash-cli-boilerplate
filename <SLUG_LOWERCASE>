@@ -16,7 +16,7 @@
 
 
 # -------------------------------------------------------
-# CLOUDFLARE VARIABLES
+# <SLUG_UPPERCASE> VARIABLES
 # -------------------------------------------------------
 
 VERSION="0.0.1"
@@ -34,7 +34,7 @@ RESET=$(tput sgr0);
 
 
 # -------------------------------------------------------
-# CLOUDFLARE HELPER FUNCTIONS
+# <SLUG_UPPERCASE> HELPER FUNCTIONS
 # -------------------------------------------------------
 
 # Throw an error
@@ -64,7 +64,7 @@ setup_project_config() {
 
 
 # -------------------------------------------------------
-# CLOUDFLARE COMMANDS
+# <SLUG_UPPERCASE> COMMANDS
 # -------------------------------------------------------
 
 # CLEANUP: Remove all the config files
@@ -187,7 +187,7 @@ EOF
 
 
 # -------------------------------------------------------
-# CLOUDFLARE INITIALIZATION
+# <SLUG_UPPERCASE> INITIALIZATION
 # -------------------------------------------------------
 
 # Check if help info should be displayed
